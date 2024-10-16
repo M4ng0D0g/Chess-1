@@ -22,7 +22,7 @@ int main()
     InitWindow(cellSize*cellCount, cellSize*cellCount, "Chess");
     SetTargetFPS(60);
 
-    //Load Images
+    //Defining images path
     const char* WpawnImage = "./images/Chess_plt60.png"; const char* BpawnImage = "./images/Chess_pdt60.png";
     const char* WknightImage = "./images/Chess_nlt60.png"; const char* BknightImage = "./images/Chess_ndt60.png";
     const char* WrookImage = "./images/Chess_rlt60.png"; const char* BrookImage = "./images/Chess_rdt60.png";
@@ -112,7 +112,7 @@ int main()
             knight->Draw();
         }
 
-        //Drawing Knights
+        //Drawing Rooks
         for(const auto &rook : Wr_list)
         {
             MovePieces(rook, board.DetectTile(GetMousePosition()), board);
