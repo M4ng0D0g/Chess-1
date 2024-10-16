@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "3rdparty/raylib-5.0_win64_msvc16",
+		"source" : "3rdparty/raylib-5.0_win64_msvc16"
+	}
+}

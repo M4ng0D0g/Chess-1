@@ -1,0 +1,31 @@
+set(MODULE_NAME raylib)
+
+project(${MODULE_NAME})
+
+
+if(POLICY CMP0111)
+  cmake_policy(SET CMP0111 NEW)
+endif()
+
+
+add_library(${MODULE_NAME} SHARED IMPORTED GLOBAL)
+
+
+if(WIN32)
+
+set_target_properties(raylib PROPERTIES
+  IMPORTED_IMPLIB_DEBUG ${PROJECT_SOURCE_DIR}/lib/raylibdll.lib
+  IMPORTED_LOCATION_DEBUG ${PROJECT_SOURCE_DIR}/lib/raylib.dll
+  
+  IMPORTED_IMPLIB_RELEASE ${PROJECT_SOURCE_DIR}/lib/raylibdll.lib
+  IMPORTED_LOCATION_RELEASE ${PROJECT_SOURCE_DIR}/lib/raylib.dll
+  
+  IMPORTED_CONFIGURATIONS "RELEASE;DEBUG"
+)
+
+endif()
+
+
+
+
+

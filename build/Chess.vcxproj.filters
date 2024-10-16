@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="F:\c.c++\Chess\src\board.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\c.c++\Chess\src\knight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\c.c++\Chess\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\c.c++\Chess\src\move.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\c.c++\Chess\src\pawn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\c.c++\Chess\src\piece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\c.c++\Chess\src\rook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F:\c.c++\Chess\include\board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\knight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\move.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\pawn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\piece.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\include\raylib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\include\raymath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\include\rlgl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\rook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\c.c++\Chess\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\README.md" />
+    <None Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\lib\raylib.dll" />
+    <None Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\lib\raylib.lib" />
+    <None Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\lib\raylibdll.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{C683D3EE-7DE5-310F-8D72-4BA392CD8500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{94FC072C-F3CB-340E-A7D8-16D9097198E1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

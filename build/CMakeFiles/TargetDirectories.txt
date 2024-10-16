@@ -1,0 +1,5 @@
+F:/c.c++/Chess/build/CMakeFiles/Chess.dir
+F:/c.c++/Chess/build/CMakeFiles/ALL_BUILD.dir
+F:/c.c++/Chess/build/CMakeFiles/ZERO_CHECK.dir
+F:/c.c++/Chess/build/3rdparty/CMakeFiles/ALL_BUILD.dir
+F:/c.c++/Chess/build/3rdparty/raylib-5.0_win64_msvc16/CMakeFiles/ALL_BUILD.dir
