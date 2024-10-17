@@ -18,6 +18,7 @@ Rook::~Rook()
     UnloadTexture(texture);
 }
 
+Vector2 tempR = {0, 0};
 bool Rook::MoveIsValid(Vector2 from, Vector2 des, vector<vector<char>> board)
 {
     if(from.x == des.x || from.y == des.y)
@@ -25,10 +26,10 @@ bool Rook::MoveIsValid(Vector2 from, Vector2 des, vector<vector<char>> board)
         //left
         if(des.x - from.x < 0)
         {   
-            Vector2 temp = from;
-            while(temp.x != des.x)
+            tempR = from;
+            while(tempR.x != des.x)
             {
-                if(board[int(temp.y)][int(temp.x += dir[2].x)] != '0')
+                if(board[int(tempR.y)][int(--tempR.x)] != '0')
                     return false;
             } 
             return true;
@@ -37,10 +38,10 @@ bool Rook::MoveIsValid(Vector2 from, Vector2 des, vector<vector<char>> board)
         // right
         if(des.x - from.x > 0)
         {   
-            Vector2 temp = from;
-            while(temp.x != des.x)
+            tempR = from;
+            while(tempR.x != des.x)
             {
-                if(board[int(temp.y)][int(temp.x += dir[0].x)] != '0')
+                if(board[int(tempR.y)][int(++tempR.x)] != '0')
                     return false;
 
             }
@@ -50,10 +51,11 @@ bool Rook::MoveIsValid(Vector2 from, Vector2 des, vector<vector<char>> board)
         //up
         if(des.y - from.y < 0)
         {   
-            Vector2 temp = from;
-            while(temp.y != des.y)
+            tempR = from;
+            while(tempR.y != des.y)
             {
-                if(board[int(temp.y += dir[3].y)][int(temp.x)] != '0')
+                cout << "k";
+                if(board[int(--tempR.y)][int(tempR.x)] != '0')
                     return false;
             }
             return true;
@@ -62,10 +64,10 @@ bool Rook::MoveIsValid(Vector2 from, Vector2 des, vector<vector<char>> board)
         //down
         if(des.y - from.y > 0)
         {   
-            Vector2 temp = from;
-            while(temp.y != des.y)
+            tempR = from;
+            while(tempR.y != des.y)
             {
-                if(board[int(temp.y += dir[1].y)][int(temp.x)] != '0')
+                if(board[int(++tempR.y)][int(tempR.x)] != '0')
                     return false;
             }
             return true;

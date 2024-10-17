@@ -20,14 +20,20 @@ Pawn::~Pawn()
 
 bool Pawn::MoveIsValid(Vector2 from, Vector2 des, vector<vector<char>> board)
 {
-    if(from.y == 6 && from.x == des.x)
+    if(board[int(des.y)][int(des.x)] == '0')
     {
-        if((des.y - from.y == -2 || des.y - from.y == -1) && board[int(des.y)][int(des.x)] == '0')
-        {
-            return true;
-        }
+    if(isupper(board[int(from.y)][int(from.x)]))
+    {
+        if(from.x == des.x && des.y - from.y == -1){return true;}
+        else if(from.x == des.x && des.y - from.y == -2 && from.y == 6){return true;}
+        return false;
     }
-    else if(from.x == des.x && des.y - from.y == -1 && board[int(des.y)][int(des.x)] == '0') return true;
+    else if(islower(board[int(from.y)][int(from.x)]))
+    {
+        if(from.x == des.x && des.y - from.y == 1){return true;}
+        else if(from.x == des.x && des.y - from.y == 2 && from.y == 1){return true;}
+        return false;
+    }
+    }
     return false;
-    
 }

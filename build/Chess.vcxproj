@@ -330,6 +330,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="F:\c.c++\Chess\include\bishop.h" />
     <ClInclude Include="F:\c.c++\Chess\include\board.h" />
     <ClInclude Include="F:\c.c++\Chess\include\knight.h" />
     <ClInclude Include="F:\c.c++\Chess\include\move.h" />
@@ -347,6 +348,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <None Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\lib\raylibdll.lib">
     </None>
     <ClInclude Include="F:\c.c++\Chess\include\rook.h" />
+    <ClCompile Include="F:\c.c++\Chess\src\bishop.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\board.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\knight.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\main.cpp" />

@@ -4,6 +4,7 @@
 #include "pawn.h"
 #include "knight.h"
 #include "rook.h"
+#include "bishop.h"
 #include "board.h"
 #include "move.h"
 
@@ -26,13 +27,14 @@ int main()
     const char* WpawnImage = "./images/Chess_plt60.png"; const char* BpawnImage = "./images/Chess_pdt60.png";
     const char* WknightImage = "./images/Chess_nlt60.png"; const char* BknightImage = "./images/Chess_ndt60.png";
     const char* WrookImage = "./images/Chess_rlt60.png"; const char* BrookImage = "./images/Chess_rdt60.png";
-
+    const char* WbishopImage = "./images/Chess_blt60.png"; const char* BbishopImage = "./images/Chess_bdt60.png";
 
     //Initialize Board & Piece lists
     Board board = Board(light, dark, cellSize, cellCount);
     vector<Pawn*> Wp_list(8); vector<Pawn*> Bp_list(8);
     vector<Knight*> Wn_list(2); vector<Knight*> Bn_list(2);
     vector<Rook*> Wr_list(2); vector<Rook*> Br_list(2);
+    vector<Bishop*> Wb_list(2); vector<Bishop*> Bb_list(2);
     
     //Initialize Pieces' position
     Vector2 ini_pos = {0,0}; 
@@ -67,10 +69,23 @@ int main()
     
     //Initialize Rooks
     ini_pos = {0,7};
-    Rook* rook1 = new Rook(ini_pos, cellSize, WrookImage, 'R'); Wr_list[0] = rook1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'R';
+    Rook* Wrook1 = new Rook(ini_pos, cellSize, WrookImage, 'R'); Wr_list[0] = Wrook1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'R';
     ini_pos = {7,7};
-    Rook* rook2 = new Rook(ini_pos, cellSize, WrookImage, 'R'); Wr_list[1] = rook2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'R';
-    
+    Rook* Wrook2 = new Rook(ini_pos, cellSize, WrookImage, 'R'); Wr_list[1] = Wrook2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'R';
+    ini_pos = {0,0};
+    Rook* Brook1 = new Rook(ini_pos, cellSize, BrookImage, 'r'); Br_list[0] = Brook1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'r';
+    ini_pos = {7,0};
+    Rook* Brook2 = new Rook(ini_pos, cellSize, BrookImage, 'r'); Br_list[1] = Brook2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'r';
+
+    //Initialize Bishops
+    ini_pos = {2,7};
+    Bishop* Wbishop1 = new Bishop(ini_pos, cellSize, WbishopImage, 'B'); Wb_list[0] = Wbishop1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'B';
+    ini_pos = {5,7};
+    Bishop* Wbishop2 = new Bishop(ini_pos, cellSize, WbishopImage, 'B'); Wb_list[1] = Wbishop2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'B';
+    ini_pos = {2,0};
+    Bishop* Bbishop1 = new Bishop(ini_pos, cellSize, BbishopImage, 'b'); Bb_list[0] = Bbishop1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'b';
+    ini_pos = {5,0};
+    Bishop* Bbishop2 = new Bishop(ini_pos, cellSize, BbishopImage, 'b'); Bb_list[1] = Bbishop2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'b';
 
     while (WindowShouldClose() == false)
     {
@@ -117,6 +132,23 @@ int main()
         {
             MovePieces(rook, board.DetectTile(GetMousePosition()), board);
             rook->Draw();
+        }
+        for(const auto &rook : Br_list)
+        {
+            MovePieces(rook, board.DetectTile(GetMousePosition()), board);
+            rook->Draw();
+        }
+
+        //Drawing Bishops
+        for(const auto &bishop : Wb_list)
+        {
+            MovePieces(bishop, board.DetectTile(GetMousePosition()), board);
+            bishop->Draw();
+        }
+        for(const auto &bishop : Bb_list)
+        {
+            MovePieces(bishop, board.DetectTile(GetMousePosition()), board);
+            bishop->Draw();
         }
 
         EndDrawing();
