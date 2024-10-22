@@ -17,6 +17,8 @@ public:
     vector<vector<char>> board_state;
     state turn = white;
     bool moved = false;
+    Vector2 capture_pos = {-1, -1};
+    char captureType = '0';
 
     //Draw a grid with cellCount * cellCount, with each tile
     //is the size of cellSize * cellSize

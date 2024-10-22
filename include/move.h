@@ -21,13 +21,24 @@ void MovePieces(T piece, Vector2 mousePos, Board &board)
 
     if(!IsMouseButtonDown(MOUSE_BUTTON_LEFT) && piece->grabbed)
     {
-        if(piece->MoveIsValid(temp, mousePos, board.board_state) && (isupper(piece->piece_type) ^ board.turn)) 
+        if(piece->MoveIsValid(temp, mousePos, board) && (bool(isupper(piece->piece_type)) != bool(board.turn))) 
         {
+            if(board.board_state[int(mousePos.y)][int(mousePos.x)] != '0')
+            {
+                board.capture_pos = mousePos;
+                board.captureType = board.board_state[int(mousePos.y)][int(mousePos.x)];
+            }
+
             piece->position = mousePos;
             piece->grabbed = false;
             board.board_state[int(piece->position.y)][int(piece->position.x)] = piece->piece_type;
             board.board_state[int(temp.y)][int(temp.x)] = '0';
-            board.moved = true;
+
+            //Detect if a valid move was made
+            //and change the turn if so
+            if(board.turn == white) {board.turn = black;}
+            else if(board.turn == black) {board.turn = white;}
+
 
             for(auto &n : board.board_state)
             {

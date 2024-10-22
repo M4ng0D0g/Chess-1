@@ -44,7 +44,7 @@ int main()
     for(llui i=0;i<Wp_list.size();i++)
     {
         ini_pos.x = float(i);
-        Pawn* pawn = new Pawn(ini_pos, cellSize, WpawnImage, 'P');
+        Pawn* pawn = new Pawn(ini_pos, cellSize, WpawnImage, 'P', i);
         board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'P';
         Wp_list[i] = pawn;
     }
@@ -52,40 +52,40 @@ int main()
     for(llui i=0;i<Bp_list.size();i++)
     {
         ini_pos.x = float(i);
-        Pawn* pawn = new Pawn(ini_pos, cellSize, BpawnImage, 'p');
+        Pawn* pawn = new Pawn(ini_pos, cellSize, BpawnImage, 'p', i);
         board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'p';
         Bp_list[i] = pawn;
     }
 
     //Initialize Knights
     ini_pos = {1,7};
-    Knight* Wknight1 = new Knight(ini_pos, cellSize, WknightImage, 'N'); Wn_list[0] = Wknight1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'N';
+    Knight* Wknight1 = new Knight(ini_pos, cellSize, WknightImage, 'N', 0); Wn_list[0] = Wknight1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'N';
     ini_pos = {6,7};
-    Knight* Wknight2 = new Knight(ini_pos, cellSize, WknightImage, 'N'); Wn_list[1] = Wknight2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'N';
+    Knight* Wknight2 = new Knight(ini_pos, cellSize, WknightImage, 'N', 1); Wn_list[1] = Wknight2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'N';
     ini_pos = {1,0};
-    Knight* Bknight1 = new Knight(ini_pos, cellSize, BknightImage, 'n'); Bn_list[0] = Bknight1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'n';
+    Knight* Bknight1 = new Knight(ini_pos, cellSize, BknightImage, 'n', 0); Bn_list[0] = Bknight1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'n';
     ini_pos = {6,0};
-    Knight* Bknight2 = new Knight(ini_pos, cellSize, BknightImage, 'n'); Bn_list[1] = Bknight2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'n';
+    Knight* Bknight2 = new Knight(ini_pos, cellSize, BknightImage, 'n', 1); Bn_list[1] = Bknight2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'n';
     
     //Initialize Rooks
     ini_pos = {0,7};
-    Rook* Wrook1 = new Rook(ini_pos, cellSize, WrookImage, 'R'); Wr_list[0] = Wrook1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'R';
+    Rook* Wrook1 = new Rook(ini_pos, cellSize, WrookImage, 'R', 0); Wr_list[0] = Wrook1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'R';
     ini_pos = {7,7};
-    Rook* Wrook2 = new Rook(ini_pos, cellSize, WrookImage, 'R'); Wr_list[1] = Wrook2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'R';
+    Rook* Wrook2 = new Rook(ini_pos, cellSize, WrookImage, 'R', 1); Wr_list[1] = Wrook2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'R';
     ini_pos = {0,0};
-    Rook* Brook1 = new Rook(ini_pos, cellSize, BrookImage, 'r'); Br_list[0] = Brook1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'r';
+    Rook* Brook1 = new Rook(ini_pos, cellSize, BrookImage, 'r', 0); Br_list[0] = Brook1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'r';
     ini_pos = {7,0};
-    Rook* Brook2 = new Rook(ini_pos, cellSize, BrookImage, 'r'); Br_list[1] = Brook2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'r';
+    Rook* Brook2 = new Rook(ini_pos, cellSize, BrookImage, 'r', 1); Br_list[1] = Brook2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'r';
 
     //Initialize Bishops
     ini_pos = {2,7};
-    Bishop* Wbishop1 = new Bishop(ini_pos, cellSize, WbishopImage, 'B'); Wb_list[0] = Wbishop1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'B';
+    Bishop* Wbishop1 = new Bishop(ini_pos, cellSize, WbishopImage, 'B', 0); Wb_list[0] = Wbishop1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'B';
     ini_pos = {5,7};
-    Bishop* Wbishop2 = new Bishop(ini_pos, cellSize, WbishopImage, 'B'); Wb_list[1] = Wbishop2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'B';
+    Bishop* Wbishop2 = new Bishop(ini_pos, cellSize, WbishopImage, 'B', 1); Wb_list[1] = Wbishop2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'B';
     ini_pos = {2,0};
-    Bishop* Bbishop1 = new Bishop(ini_pos, cellSize, BbishopImage, 'b'); Bb_list[0] = Bbishop1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'b';
+    Bishop* Bbishop1 = new Bishop(ini_pos, cellSize, BbishopImage, 'b', 0); Bb_list[0] = Bbishop1; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'b';
     ini_pos = {5,0};
-    Bishop* Bbishop2 = new Bishop(ini_pos, cellSize, BbishopImage, 'b'); Bb_list[1] = Bbishop2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'b';
+    Bishop* Bbishop2 = new Bishop(ini_pos, cellSize, BbishopImage, 'b', 1); Bb_list[1] = Bbishop2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'b';
 
     while (WindowShouldClose() == false)
     {
@@ -94,66 +94,114 @@ int main()
         ClearBackground(light);
         board.Draw();
 
-        //Detect if a valid move was made
-        //and change the turn if so
-        if(board.moved)
-        {
-            board.moved = false;
-            if(board.turn == white) {board.turn = black;}
-            else if(board.turn == black) {board.turn = white;}
-        }
-
         //Drawing Pawns
-        for(const auto &pawn : Wp_list)
+        for(const auto &piece : Wp_list)
         {
-            MovePieces(pawn, board.DetectTile(GetMousePosition()), board);
-            pawn->Draw();
+            if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+                Wp_list.erase(Wp_list.begin() + piece->number);
+                delete piece; continue;
+            }
+            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+            piece->Draw();
         }
-        for(const auto &pawn : Bp_list)
+        for(const auto &piece : Bp_list)
         {
-            MovePieces(pawn, board.DetectTile(GetMousePosition()), board);
-            pawn->Draw();
+            if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+                Bp_list.erase(Bp_list.begin() + piece->number);
+                delete piece; continue;
+            }
+            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+            piece->Draw();
         }
 
         //Drawing Knights
-        for(const auto &knight : Wn_list)
+        for(const auto &piece : Wn_list)
         {
-            MovePieces(knight, board.DetectTile(GetMousePosition()), board);
-            knight->Draw();
+            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+            piece->Draw();
+            if (piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 };
+                board.captureType = '0';
+                Wn_list.erase(Wn_list.begin() + piece->number);
+                //delete piece; continue; I dont know why deleting pieces doesnt work on knights...
+            }
         }
-        for(const auto &knight : Bn_list)
+        for(const auto &piece : Bn_list)
         {
-            MovePieces(knight, board.DetectTile(GetMousePosition()), board);
-            knight->Draw();
+            if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+                Bn_list.erase(Bn_list.begin() + piece->number);
+                //delete piece; continue; I dont know why deleting pieces doesnt work on knights...
+            }
+            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+            piece->Draw();
         }
 
         //Drawing Rooks
-        for(const auto &rook : Wr_list)
+        for(const auto &piece : Wr_list)
         {
-            MovePieces(rook, board.DetectTile(GetMousePosition()), board);
-            rook->Draw();
+            if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+                Wr_list.erase(Wr_list.begin() + piece->number);
+                delete piece; continue;
+            }
+            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+            piece->Draw();
         }
-        for(const auto &rook : Br_list)
+        for(const auto &piece : Br_list)
         {
-            MovePieces(rook, board.DetectTile(GetMousePosition()), board);
-            rook->Draw();
+            if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+                Br_list.erase(Br_list.begin() + piece->number);
+                delete piece; continue;
+            }
+            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+            piece->Draw();
         }
 
         //Drawing Bishops
-        for(const auto &bishop : Wb_list)
+        for(const auto &piece : Wb_list)
         {
-            MovePieces(bishop, board.DetectTile(GetMousePosition()), board);
-            bishop->Draw();
+            if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+                Wb_list.erase(Wb_list.begin() + piece->number);
+                delete piece; continue;
+            }
+            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+            piece->Draw();
         }
-        for(const auto &bishop : Bb_list)
+        for(const auto &piece : Bb_list)
         {
-            MovePieces(bishop, board.DetectTile(GetMousePosition()), board);
-            bishop->Draw();
+            if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+                Bb_list.erase(Bb_list.begin() + piece->number);
+                delete piece; continue;
+            }
+            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+            piece->Draw();
         }
-
+        
         EndDrawing();
     }
 
     CloseWindow();
     return 0;
 }
+

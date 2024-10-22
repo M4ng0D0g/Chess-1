@@ -3,6 +3,7 @@
 #include <iostream>
 #include "raylib.h"
 #include "piece.h"
+#include "board.h"
 #include <vector>
 
 using namespace std;
@@ -13,11 +14,11 @@ class Pawn : public Piece{
 public:
     
     //Initialize piece's position (in tiles)
-    Pawn(Vector2, int, const char*, char);
+    Pawn(Vector2, int, const char*, char, int);
 
     ~Pawn();
 
     //Check if the move is valid (in tiles)
-    bool MoveIsValid(Vector2, Vector2, vector<vector<char>> board);
+    bool MoveIsValid(Vector2, Vector2, Board &board);
 };
 

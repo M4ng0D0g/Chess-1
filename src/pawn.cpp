@@ -5,7 +5,7 @@
 using namespace std;
 #define llui long long unsigned int
 
-Pawn::Pawn(Vector2 pos, int cellsize, const char* imageLocation, char pieceType): Piece(pos, cellsize, pieceType)
+Pawn::Pawn(Vector2 pos, int cellsize, const char* imageLocation, char pieceType, int number): Piece(pos, cellsize, pieceType, number)
 {
     image = LoadImage(imageLocation);
     ImageResizeNN(&image, 95, 95);
@@ -18,8 +18,10 @@ Pawn::~Pawn()
     UnloadTexture(texture);
 }
 
-bool Pawn::MoveIsValid(Vector2 from, Vector2 des, vector<vector<char>> board)
+bool Pawn::MoveIsValid(Vector2 from, Vector2 des, Board &Board)
 {
+    vector<vector<char>> board = Board.board_state;
+    
     if(board[int(des.y)][int(des.x)] == '0')
     {
     if(isupper(board[int(from.y)][int(from.x)]))

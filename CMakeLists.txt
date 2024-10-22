@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
 
+set(_PUBLISH publish)
+
+
 
 ######################################################
 #
@@ -9,6 +12,11 @@ cmake_minimum_required(VERSION 3.5)
 ######################################################
 set(PRJ_NAME Chess)
 project(${PRJ_NAME})
+
+
+
+set(_ROOT ${PROJECT_SOURCE_DIR})
+
 
 # 通用编译选项
 set(CMAKE_CXX_STANDARD 17)
@@ -193,3 +201,29 @@ target_link_libraries(${PRJ_NAME}
 PRIVATE
   raylib
 )
+
+if(WIN32)
+
+set_target_properties(${PROJECT_NAME} 
+PROPERTIES
+  VS_DEBUGGER_WORKING_DIRECTORY ${_ROOT}/${_PUBLISH}/${PROJECT_NAME}
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
+	COMMENT "copy ${PROJECT_NAME} libraries files..."
+	
+	
+	COMMAND ${CMAKE_COMMAND} -E make_directory  ${_PUBLISH}/${PROJECT_NAME}
+	
+	
+	
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:raylib> ${_PUBLISH}/${PROJECT_NAME}
+	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${_PUBLISH}/${PROJECT_NAME}
+	
+	COMMAND ${CMAKE_COMMAND} -E make_directory  ${_PUBLISH}/${PROJECT_NAME}/images
+	COMMAND ${CMAKE_COMMAND} -E copy_directory assets/images ${_PUBLISH}/${PROJECT_NAME}/images
+	
+	
+	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+)
+endif()
