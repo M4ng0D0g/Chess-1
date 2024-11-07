@@ -5,6 +5,7 @@
 #include "knight.h"
 #include "rook.h"
 #include "bishop.h"
+#include "king.h"
 #include "board.h"
 #include "move.h"
 
@@ -28,6 +29,7 @@ int main()
     const char* WknightImage = "./images/Chess_nlt60.png"; const char* BknightImage = "./images/Chess_ndt60.png";
     const char* WrookImage = "./images/Chess_rlt60.png"; const char* BrookImage = "./images/Chess_rdt60.png";
     const char* WbishopImage = "./images/Chess_blt60.png"; const char* BbishopImage = "./images/Chess_bdt60.png";
+    const char* WkingImage = "./images/Chess_klt60.png"; const char* BkingImage = "./images/Chess_kdt60.png";
 
     //Initialize Board & Piece lists
     Board board = Board(light, dark, cellSize, cellCount);
@@ -44,7 +46,7 @@ int main()
     for(llui i=0;i<Wp_list.size();i++)
     {
         ini_pos.x = float(i);
-        Pawn* pawn = new Pawn(ini_pos, cellSize, WpawnImage, 'P', i);
+        Pawn* pawn = new Pawn(ini_pos, cellSize, WpawnImage, 'P', int(i));
         board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'P';
         Wp_list[i] = pawn;
     }
@@ -52,7 +54,7 @@ int main()
     for(llui i=0;i<Bp_list.size();i++)
     {
         ini_pos.x = float(i);
-        Pawn* pawn = new Pawn(ini_pos, cellSize, BpawnImage, 'p', i);
+        Pawn* pawn = new Pawn(ini_pos, cellSize, BpawnImage, 'p', int(i));
         board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'p';
         Bp_list[i] = pawn;
     }
@@ -87,6 +89,13 @@ int main()
     ini_pos = {5,0};
     Bishop* Bbishop2 = new Bishop(ini_pos, cellSize, BbishopImage, 'b', 1); Bb_list[1] = Bbishop2; board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'b';
 
+
+    //Initialize Kings
+    ini_pos = {4,7};
+    King* Wking = new King(ini_pos, cellSize, WkingImage, 'K', 0); board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'K';
+    ini_pos = {4,0};
+    King* Bking = new King(ini_pos, cellSize, BkingImage, 'k', 0); board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'k';
+
     while (WindowShouldClose() == false)
     {
         BeginDrawing();
@@ -97,105 +106,142 @@ int main()
         //Drawing Pawns
         for(const auto &piece : Wp_list)
         {
+            if(piece != nullptr) {
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
                 board.captureType = '0'; 
-                Wp_list.erase(Wp_list.begin() + piece->number);
+                Wp_list[piece->number] = nullptr;
                 delete piece; continue;
             }
             MovePieces(piece, board.DetectTile(GetMousePosition()), board);
             piece->Draw();
+            }
         }
         for(const auto &piece : Bp_list)
         {
+            if(piece != nullptr) {
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
                 board.captureType = '0'; 
-                Bp_list.erase(Bp_list.begin() + piece->number);
+                Bp_list[piece->number] = nullptr;
                 delete piece; continue;
             }
             MovePieces(piece, board.DetectTile(GetMousePosition()), board);
             piece->Draw();
+            }
         }
 
         //Drawing Knights
         for(const auto &piece : Wn_list)
         {
+            if(piece != nullptr) {
             MovePieces(piece, board.DetectTile(GetMousePosition()), board);
             piece->Draw();
+            
             if (piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 };
                 board.captureType = '0';
-                Wn_list.erase(Wn_list.begin() + piece->number);
-                //delete piece; continue; I dont know why deleting pieces doesnt work on knights...
+                Wn_list[piece->number] = nullptr;
+                delete piece; continue;
+            }
             }
         }
         for(const auto &piece : Bn_list)
         {
+            if(piece != nullptr) {
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
                 board.captureType = '0'; 
-                Bn_list.erase(Bn_list.begin() + piece->number);
-                //delete piece; continue; I dont know why deleting pieces doesnt work on knights...
+                Bn_list[piece->number] = nullptr;
+                delete piece; continue;
             }
             MovePieces(piece, board.DetectTile(GetMousePosition()), board);
             piece->Draw();
+            }
         }
 
         //Drawing Rooks
         for(const auto &piece : Wr_list)
         {
+            if(piece != nullptr) {
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
                 board.captureType = '0'; 
-                Wr_list.erase(Wr_list.begin() + piece->number);
+                Wr_list[piece->number] = nullptr;
                 delete piece; continue;
             }
             MovePieces(piece, board.DetectTile(GetMousePosition()), board);
             piece->Draw();
+            }
         }
         for(const auto &piece : Br_list)
         {
+            if(piece != nullptr) {
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
                 board.captureType = '0'; 
-                Br_list.erase(Br_list.begin() + piece->number);
+                Br_list[piece->number] = nullptr;
                 delete piece; continue;
             }
             MovePieces(piece, board.DetectTile(GetMousePosition()), board);
             piece->Draw();
+            }
         }
 
         //Drawing Bishops
         for(const auto &piece : Wb_list)
         {
+            if(piece != nullptr) {
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
                 board.captureType = '0'; 
-                Wb_list.erase(Wb_list.begin() + piece->number);
+                Wb_list[piece->number] = nullptr;
                 delete piece; continue;
             }
             MovePieces(piece, board.DetectTile(GetMousePosition()), board);
             piece->Draw();
+            }
         }
         for(const auto &piece : Bb_list)
         {
+            if(piece != nullptr) {
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
                 board.captureType = '0'; 
-                Bb_list.erase(Bb_list.begin() + piece->number);
+                Bb_list[piece->number] = nullptr;
                 delete piece; continue;
             }
             MovePieces(piece, board.DetectTile(GetMousePosition()), board);
             piece->Draw();
+            }
+        }
+
+        //Drawing Kings
+        if(Wking != nullptr) {
+            if(Wking->position.x == board.capture_pos.x && Wking->position.y == board.capture_pos.y && Wking->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+            }
+            MovePieces(Wking, board.DetectTile(GetMousePosition()), board);
+            Wking->Draw();
+        }
+        if(Bking != nullptr) {
+            if(Bking->position.x == board.capture_pos.x && Bking->position.y == board.capture_pos.y && Bking->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+            }
+            MovePieces(Bking, board.DetectTile(GetMousePosition()), board);
+            Bking->Draw();
         }
         
         EndDrawing();

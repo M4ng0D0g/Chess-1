@@ -447,6 +447,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemGroup>
     <ClInclude Include="F:\c.c++\Chess\include\bishop.h" />
     <ClInclude Include="F:\c.c++\Chess\include\board.h" />
+    <ClInclude Include="F:\c.c++\Chess\include\king.h" />
     <ClInclude Include="F:\c.c++\Chess\include\knight.h" />
     <ClInclude Include="F:\c.c++\Chess\include\move.h" />
     <ClInclude Include="F:\c.c++\Chess\include\pawn.h" />
@@ -465,6 +466,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="F:\c.c++\Chess\include\rook.h" />
     <ClCompile Include="F:\c.c++\Chess\src\bishop.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\board.cpp" />
+    <ClCompile Include="F:\c.c++\Chess\src\king.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\knight.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\main.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\move.cpp" />

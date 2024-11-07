@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include "raylib.h"
 #include "board.h"
 #include <vector>
@@ -10,6 +11,8 @@ char type;
 template <typename T>
 void MovePieces(T piece, Vector2 mousePos, Board &board)
 {
+    if(piece != nullptr) {
+
     if((mousePos.x == piece->position.x && mousePos.y == piece->position.y))
     {
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -61,5 +64,6 @@ void MovePieces(T piece, Vector2 mousePos, Board &board)
     {
         piece->position.x = float(GetMousePosition().x / cellSize) - 0.5f;
         piece->position.y = float(GetMousePosition().y / cellSize) - 0.5f;
+    }
     }
 }

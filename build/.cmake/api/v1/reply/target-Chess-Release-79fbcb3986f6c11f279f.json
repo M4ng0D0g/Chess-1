@@ -59,7 +59,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG -std:c++17   /wd4250 /wd4275 /wd4435 /wd4514 /wd4548 /wd4668 /wd4710 /wd4711 /wd4820 /wd4828 /wd4267 /GR /source-charset:utf-8 /W3 /WX-"
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG /Zi -std:c++17   /wd4250 /wd4275 /wd4435 /wd4514 /wd4548 /wd4668 /wd4710 /wd4711 /wd4820 /wd4828 /wd4267 /GR /source-charset:utf-8 /W3 /WX-"
 				}
 			],
 			"defines" : 
@@ -95,14 +95,15 @@
 			},
 			"sourceIndexes" : 
 			[
-				14,
 				15,
 				16,
 				17,
 				18,
 				19,
 				20,
-				21
+				21,
+				22,
+				23
 			]
 		}
 	],
@@ -118,11 +119,11 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG",
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG /Zi",
 				"role" : "flags"
 			},
 			{
-				"fragment" : "/machine:x64 /debug /INCREMENTAL /subsystem:console",
+				"fragment" : "/machine:x64 /INCREMENTAL:NO /DEBUG /OPT:REF /OPT:ICF /subsystem:console",
 				"role" : "flags"
 			},
 			{
@@ -156,34 +157,36 @@
 				3,
 				4,
 				5,
-				7,
+				6,
 				8,
 				9,
-				13
+				10,
+				14
 			]
 		},
 		{
 			"name" : "",
 			"sourceIndexes" : 
 			[
-				6,
-				10,
+				7,
 				11,
-				12
+				12,
+				13
 			]
 		},
 		{
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				14,
 				15,
 				16,
 				17,
 				18,
 				19,
 				20,
-				21
+				21,
+				22,
+				23
 			]
 		}
 	],
@@ -197,6 +200,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "include/board.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/king.h",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -269,6 +277,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/board.cpp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/king.cpp",
 			"sourceGroupIndex" : 2
 		},
 		{

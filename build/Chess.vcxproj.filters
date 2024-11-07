@@ -7,6 +7,9 @@
     <ClCompile Include="F:\c.c++\Chess\src\board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="F:\c.c++\Chess\src\king.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="F:\c.c++\Chess\src\knight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -31,6 +34,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="F:\c.c++\Chess\include\board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\king.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="F:\c.c++\Chess\include\knight.h">
