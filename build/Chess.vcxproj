@@ -452,6 +452,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="F:\c.c++\Chess\include\move.h" />
     <ClInclude Include="F:\c.c++\Chess\include\pawn.h" />
     <ClInclude Include="F:\c.c++\Chess\include\piece.h" />
+    <ClInclude Include="F:\c.c++\Chess\include\queen.h" />
     <None Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\README.md">
     </None>
     <ClInclude Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\include\raylib.h" />
@@ -472,6 +473,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="F:\c.c++\Chess\src\move.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\pawn.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\piece.cpp" />
+    <ClCompile Include="F:\c.c++\Chess\src\queen.cpp" />
     <ClCompile Include="F:\c.c++\Chess\src\rook.cpp" />
   </ItemGroup>
   <ItemGroup>

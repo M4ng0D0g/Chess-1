@@ -134,7 +134,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Chess::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Chess-Debug-a078cb166cc1f165f3c0.json",
+					"jsonFile" : "target-Chess-Debug-779573924211a2c982e4.json",
 					"name" : "Chess",
 					"projectIndex" : 0
 				},
@@ -280,7 +280,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Chess::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Chess-Release-79fbcb3986f6c11f279f.json",
+					"jsonFile" : "target-Chess-Release-063328436c38a21dadf8.json",
 					"name" : "Chess",
 					"projectIndex" : 0
 				},
@@ -426,7 +426,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Chess::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Chess-MinSizeRel-2cbad4706a8e09baae0f.json",
+					"jsonFile" : "target-Chess-MinSizeRel-5ff93bce747d12c308ee.json",
 					"name" : "Chess",
 					"projectIndex" : 0
 				},
@@ -572,7 +572,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Chess::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Chess-RelWithDebInfo-cf3754ec4cdfd5a9d5e1.json",
+					"jsonFile" : "target-Chess-RelWithDebInfo-beb166719cdfd01d9fdc.json",
 					"name" : "Chess",
 					"projectIndex" : 0
 				},

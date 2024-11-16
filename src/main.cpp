@@ -6,6 +6,7 @@
 #include "rook.h"
 #include "bishop.h"
 #include "king.h"
+#include "queen.h"
 #include "board.h"
 #include "move.h"
 
@@ -30,6 +31,7 @@ int main()
     const char* WrookImage = "./images/Chess_rlt60.png"; const char* BrookImage = "./images/Chess_rdt60.png";
     const char* WbishopImage = "./images/Chess_blt60.png"; const char* BbishopImage = "./images/Chess_bdt60.png";
     const char* WkingImage = "./images/Chess_klt60.png"; const char* BkingImage = "./images/Chess_kdt60.png";
+    const char* WqueenImage = "./images/Chess_qlt60.png"; const char* BqueenImage = "./images/Chess_qdt60.png";
 
     //Initialize Board & Piece lists
     Board board = Board(light, dark, cellSize, cellCount);
@@ -96,6 +98,13 @@ int main()
     ini_pos = {4,0};
     King* Bking = new King(ini_pos, cellSize, BkingImage, 'k', 0); board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'k';
 
+
+    //Initialize Queens
+    ini_pos = {3,7};
+    Queen* Wqueen = new Queen(ini_pos, cellSize, WqueenImage, 'Q', 0); board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'Q';
+    ini_pos = {3,0};
+    Queen* Bqueen = new Queen(ini_pos, cellSize, BqueenImage, 'q', 0); board.board_state[int(ini_pos.y)][int(ini_pos.x)] = 'q';
+
     while (WindowShouldClose() == false)
     {
         BeginDrawing();
@@ -107,6 +116,8 @@ int main()
         for(const auto &piece : Wp_list)
         {
             if(piece != nullptr) {
+                MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+                piece->Draw();
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
@@ -114,13 +125,13 @@ int main()
                 Wp_list[piece->number] = nullptr;
                 delete piece; continue;
             }
-            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
-            piece->Draw();
             }
         }
         for(const auto &piece : Bp_list)
         {
             if(piece != nullptr) {
+                MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+                piece->Draw();
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
@@ -128,8 +139,6 @@ int main()
                 Bp_list[piece->number] = nullptr;
                 delete piece; continue;
             }
-            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
-            piece->Draw();
             }
         }
 
@@ -152,6 +161,8 @@ int main()
         for(const auto &piece : Bn_list)
         {
             if(piece != nullptr) {
+                MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+                piece->Draw();
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
@@ -159,8 +170,6 @@ int main()
                 Bn_list[piece->number] = nullptr;
                 delete piece; continue;
             }
-            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
-            piece->Draw();
             }
         }
 
@@ -168,6 +177,8 @@ int main()
         for(const auto &piece : Wr_list)
         {
             if(piece != nullptr) {
+                MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+                piece->Draw();
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
@@ -175,13 +186,13 @@ int main()
                 Wr_list[piece->number] = nullptr;
                 delete piece; continue;
             }
-            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
-            piece->Draw();
             }
         }
         for(const auto &piece : Br_list)
         {
             if(piece != nullptr) {
+                MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+                piece->Draw();
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
@@ -189,8 +200,6 @@ int main()
                 Br_list[piece->number] = nullptr;
                 delete piece; continue;
             }
-            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
-            piece->Draw();
             }
         }
 
@@ -198,6 +207,8 @@ int main()
         for(const auto &piece : Wb_list)
         {
             if(piece != nullptr) {
+                MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+                piece->Draw();
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
@@ -205,13 +216,13 @@ int main()
                 Wb_list[piece->number] = nullptr;
                 delete piece; continue;
             }
-            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
-            piece->Draw();
             }
         }
         for(const auto &piece : Bb_list)
         {
             if(piece != nullptr) {
+                MovePieces(piece, board.DetectTile(GetMousePosition()), board);
+                piece->Draw();
             if(piece->position.x == board.capture_pos.x && piece->position.y == board.capture_pos.y && piece->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
@@ -219,30 +230,54 @@ int main()
                 Bb_list[piece->number] = nullptr;
                 delete piece; continue;
             }
-            MovePieces(piece, board.DetectTile(GetMousePosition()), board);
-            piece->Draw();
             }
         }
 
         //Drawing Kings
         if(Wking != nullptr) {
+            MovePieces(Wking, board.DetectTile(GetMousePosition()), board);
+            Wking->Draw();
             if(Wking->position.x == board.capture_pos.x && Wking->position.y == board.capture_pos.y && Wking->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
                 board.captureType = '0'; 
             }
-            MovePieces(Wking, board.DetectTile(GetMousePosition()), board);
-            Wking->Draw();
         }
         if(Bking != nullptr) {
+            MovePieces(Bking, board.DetectTile(GetMousePosition()), board);
+            Bking->Draw();
             if(Bking->position.x == board.capture_pos.x && Bking->position.y == board.capture_pos.y && Bking->piece_type == board.captureType)
             {
                 board.capture_pos = { -1, -1 }; 
                 board.captureType = '0'; 
             }
-            MovePieces(Bking, board.DetectTile(GetMousePosition()), board);
-            Bking->Draw();
         }
+
+
+        //Drawing Queens
+        if(Wqueen != nullptr) {
+            MovePieces(Wqueen, board.DetectTile(GetMousePosition()), board);
+            Wqueen->Draw();
+            if(Wqueen->position.x == board.capture_pos.x && Wqueen->position.y == board.capture_pos.y && Wqueen->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0'; 
+                Wqueen = nullptr;
+                delete Wqueen;
+            }
+        }
+        if(Bqueen != nullptr) {
+            MovePieces(Bqueen, board.DetectTile(GetMousePosition()), board);
+            Bqueen->Draw();
+            if(Bqueen->position.x == board.capture_pos.x && Bqueen->position.y == board.capture_pos.y && Bqueen->piece_type == board.captureType)
+            {
+                board.capture_pos = { -1, -1 }; 
+                board.captureType = '0';
+                Bqueen = nullptr;
+                delete Bqueen; 
+            }
+        }
+
         
         EndDrawing();
     }

@@ -25,6 +25,9 @@
     <ClCompile Include="F:\c.c++\Chess\src\piece.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="F:\c.c++\Chess\src\queen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="F:\c.c++\Chess\src\rook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,6 +52,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="F:\c.c++\Chess\include\piece.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\c.c++\Chess\include\queen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="F:\c.c++\Chess\include\raylib-5.0_win64_msvc16\include\raylib.h">
