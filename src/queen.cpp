@@ -24,6 +24,8 @@ bool Queen::MoveIsValid(Vector2 from, Vector2 des, Board &Board)
     vector<vector<char>> board = Board.board_state;
 
     //upright
+    if(abs(des.x - from.x) == abs(des.y - from.y))
+    {
         if(des.x - from.x > 0 && des.y - from.y < 0)
         {
             tempQ = from;
@@ -84,7 +86,10 @@ bool Queen::MoveIsValid(Vector2 from, Vector2 des, Board &Board)
             }
             return true;
         }
-
+    }
+    
+    if(from.x == des.x || from.y == des.y)
+    {
         //left
         if(des.x - from.x < 0)
         {   
@@ -146,6 +151,7 @@ bool Queen::MoveIsValid(Vector2 from, Vector2 des, Board &Board)
             }
             return true;
         }
+    }
 
-        return false;
+    return false;
 }

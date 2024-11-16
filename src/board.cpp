@@ -1,5 +1,11 @@
 #include "raylib.h"
 #include "board.h"
+#include "king.h"
+#include "bishop.h"
+#include "knight.h"
+#include "pawn.h"
+#include "rook.h"
+#include "queen.h"
 #include <vector>
 
 using namespace std;

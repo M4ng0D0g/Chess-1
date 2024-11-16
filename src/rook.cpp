@@ -61,7 +61,6 @@ bool Rook::MoveIsValid(Vector2 from, Vector2 des, Board &Board)
             tempR = from;
             while(tempR.y != des.y)
             {
-                cout << "k";
                 if(board[int(--tempR.y)][int(tempR.x)] != '0')
                     if((bool(islower(board[int(des.y)][int(des.x)])) != bool(Board.turn)) && tempR.x == des.x && tempR.y == des.y)
                         return true;

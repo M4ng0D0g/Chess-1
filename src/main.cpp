@@ -278,6 +278,39 @@ int main()
             }
         }
 
+
+        //Detect checks
+        if((board.turn == white) && (!board.checked)) {
+            board.turn = black;
+            for(const auto &piece : Bb_list) {
+                if(piece->MoveIsValid(piece->position, Wking->position, board)) {
+                    board.inCheck = true;
+                    cout << "check1";
+                }
+            }
+            
+            for(const auto &piece : Br_list) {
+                if(piece->MoveIsValid(piece->position, Wking->position, board)) {
+                    board.inCheck = true;
+                    cout << "check2";
+                }
+            }
+            for(const auto &piece : Bn_list) {
+                if(piece->MoveIsValid(piece->position, Wking->position, board)) {
+                    board.inCheck = true;
+                    cout << "check3";
+                }
+            }
+            if(Bqueen->MoveIsValid(Bqueen->position, Wking->position, board)) {
+                    board.inCheck = true;
+                    cout << "check4";
+            }
+            
+            board.checked = true;
+            board.turn = white;
+        }
+        
+
         
         EndDrawing();
     }

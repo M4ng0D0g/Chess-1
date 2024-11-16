@@ -12,7 +12,6 @@ template <typename T>
 void MovePieces(T piece, Vector2 mousePos, Board &board)
 {
     if(piece != nullptr) {
-
     if((mousePos.x == piece->position.x && mousePos.y == piece->position.y))
     {
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -36,6 +35,7 @@ void MovePieces(T piece, Vector2 mousePos, Board &board)
             piece->grabbed = false;
             board.board_state[int(piece->position.y)][int(piece->position.x)] = piece->piece_type;
             board.board_state[int(temp.y)][int(temp.x)] = '0';
+            board.checked = false;
 
             //Detect if a valid move was made
             //and change the turn if so
