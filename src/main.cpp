@@ -280,34 +280,63 @@ int main()
 
 
         //Detect checks
-        if((board.turn == white) && (!board.checked)) {
+        if(!board.checked) {
+            state temp = board.turn;
+
+            //Detect white checked
             board.turn = black;
             for(const auto &piece : Bb_list) {
-                if(piece->MoveIsValid(piece->position, Wking->position, board)) {
+                if(piece && piece->MoveIsValid(piece->position, Wking->position, board)) {
                     board.inCheck = true;
-                    cout << "check1";
+                    cout << "Wcheck";
                 }
             }
             
             for(const auto &piece : Br_list) {
-                if(piece->MoveIsValid(piece->position, Wking->position, board)) {
+                if(piece && piece->MoveIsValid(piece->position, Wking->position, board)) {
                     board.inCheck = true;
-                    cout << "check2";
+                    cout << "Wcheck";
                 }
             }
             for(const auto &piece : Bn_list) {
-                if(piece->MoveIsValid(piece->position, Wking->position, board)) {
+                if(piece && piece->MoveIsValid(piece->position, Wking->position, board)) {
                     board.inCheck = true;
-                    cout << "check3";
+                    cout << "Wcheck";
                 }
             }
-            if(Bqueen->MoveIsValid(Bqueen->position, Wking->position, board)) {
+            if(Bqueen && Bqueen->MoveIsValid(Bqueen->position, Wking->position, board)) {
                     board.inCheck = true;
-                    cout << "check4";
+                    cout << "Wcheck";
+            }
+
+            //Detect black checked
+            board.turn = white;
+            for(const auto &piece : Wb_list) {
+                if(piece && piece->MoveIsValid(piece->position, Bking->position, board)) {
+                    board.inCheck = true;
+                    cout << "Bcheck";
+                }
             }
             
+            for(const auto &piece : Wr_list) {
+                if(piece && piece->MoveIsValid(piece->position, Bking->position, board)) {
+                    board.inCheck = true;
+                    cout << "Bcheck";
+                }
+            }
+            for(const auto &piece : Wn_list) {
+                if(piece && piece->MoveIsValid(piece->position, Bking->position, board)) {
+                    board.inCheck = true;
+                    cout << "Bcheck";
+                }
+            }
+            if(Wqueen && Wqueen->MoveIsValid(Wqueen->position, Bking->position, board)) {
+                    board.inCheck = true;
+                    cout << "Bcheck";
+            }
+            
+            board.turn = temp;
             board.checked = true;
-            board.turn = white;
         }
         
 
