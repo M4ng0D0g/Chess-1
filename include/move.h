@@ -62,8 +62,8 @@ void MovePieces(T piece, Vector2 mousePos, Board &board)
 
     if(piece->grabbed)
     {
-        piece->position.x = float(GetMousePosition().x / cellSize) - 0.5f;
-        piece->position.y = float(GetMousePosition().y / cellSize) - 0.5f;
+        piece->position.x = float(GetMousePosition().x / board.cellSize) - 0.5f;
+        piece->position.y = float(GetMousePosition().y / board.cellSize) - 0.5f;
     }
     }
 }

@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-
 set(_PUBLISH publish)
-
-
 
 ######################################################
 #
@@ -13,19 +10,11 @@ set(_PUBLISH publish)
 set(PRJ_NAME Chess)
 project(${PRJ_NAME})
 
-
-
 set(_ROOT ${PROJECT_SOURCE_DIR})
-
 
 # 通用编译选项
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-#set(CMAKE_CXX_COMPILER /Library/Developer/CommandLineTools/usr/bin/clang++)
-
-
-
-
 
 if(WIN32)
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
@@ -39,10 +28,9 @@ set_property(GLOBAL PROPERTY TARGET_MESSAGES OFF)
 set(CMAKE_INSTALL_MESSAGE NEVER)
 
 if(UNIX)
-set(CMAKE_VERBOSE_MAKEFILE ON)
+  set(CMAKE_VERBOSE_MAKEFILE ON)
 endif()
 
-# FIXME
 if(WIN32)
   set(TARGET_SUFFIX WIN32)
 else()
@@ -50,8 +38,6 @@ else()
 endif()
 
 # System Architecture
-
-
 if(CMAKE_SIZEOF_VOID_P MATCHES 8)
   if(BUILD_ARM64_SUITE)
     set(PROJECT_ARCH "arm64")
@@ -64,26 +50,25 @@ endif()
 
 message(STATUS "PROJECT_ARCH is ${PROJECT_ARCH}")
 
-
 # 按照操作系统、平台和编译配置定安装目录
 if(CMAKE_CONFIGURATION_TYPES)
   if(APPLE)
     set(TARGET_TRIPLE_CONFIG
         ${CMAKE_SYSTEM_NAME}-${PROJECT_ARCH}-$(CONFIGURATION))
-	set(BUILD_CONFIG $(CONFIGURATION))
+  set(BUILD_CONFIG $(CONFIGURATION))
   else()
     set(TARGET_TRIPLE_CONFIG
       ${CMAKE_SYSTEM_NAME}-${PROJECT_ARCH}-${CMAKE_CFG_INTDIR})
-	set(BUILD_CONFIG ${CMAKE_CFG_INTDIR})
+  set(BUILD_CONFIG ${CMAKE_CFG_INTDIR})
   endif()
 else()
   set(BUILD_CONFIG ${CMAKE_BUILD_TYPE})
   set(TARGET_TRIPLE_CONFIG ${CMAKE_SYSTEM_NAME}-${PROJECT_ARCH}-${BUILD_CONFIG})
   add_definitions(-fpermissive)
-  add_compile_definitions(__stdcall="__attribute__((__cdecl__))")
+  # 修正：將整個字串包在引號內，解決警告
+  add_compile_definitions("__stdcall=__attribute__((__cdecl__))")
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--unresolved-symbols=report-all")
 endif()
-
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
 set(TARGET_ROOT ${CMAKE_INSTALL_PREFIX})
@@ -92,14 +77,12 @@ set(TARGET_TRIPLE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/${TARGET_TRIPLE_CONFIG})
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/${BUILD_CONFIG})
 if(WIN32)
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/${BUILD_CONFIG})
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/${BUILD_CONFIG})
 else()
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/bin/${BUILD_CONFIG})
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/bin/${BUILD_CONFIG})
 endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/bin/${BUILD_CONFIG})
 set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/pdb/${BUILD_CONFIG})
-
-
 
 # 强制修改安装目录
 foreach(config ${CMAKE_CONFIGURATION_TYPES})
@@ -125,7 +108,6 @@ if(UNIX)
   endif()
 endif()
 
-
 # SDK
 if (APPLE)
   set(CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT "dwarf-with-dsym")
@@ -136,13 +118,9 @@ if (APPLE)
 endif ()
 
 if(MSVC)
-  #add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-  #add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
   add_definitions(/wd4250 /wd4275 /wd4435 /wd4514 /wd4548 /wd4668 /wd4710 /wd4711
                   /wd4820 /wd4828 /wd4267 /D_HAS_EXEPTIONS=0 /GR /source-charset:utf-8 -D_CRT_SECURE_NO_WARNINGS)
-  #string(REGEX REPLACE "/W[1-4]" "/W3" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   add_definitions(/W3 /WX-)
-  #add_definitions(/D_CRTDBG_MAP_ALLOC)
   remove_definitions(/W4 /WX)
   set(CMAKE_VS_PLATFORM_TOOLSET 120)
 else()
@@ -153,11 +131,10 @@ endif()
 
 # Symbol generation
 if(APPLE)
-	set(CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT "dwarf-with-dsym")
+  set(CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT "dwarf-with-dsym")
 elseif(UNIX)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 endif()
-
 
 function(clear_parameters)
   unset(ITF_HEADERS)
@@ -169,61 +146,69 @@ endfunction()
 function(import_subdirectory subdirectory)
   if(EXISTS ${PROJECT_SOURCE_DIR}/${subdirectory}/CMakeLists.txt)
     add_subdirectory(${subdirectory})
-	clear_parameters()
+  clear_parameters()
   else()
     message(AUTHOR_WARNING "No CMakeLists.txt found in ${subdirectory}")
   endif()
 endfunction()
 
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-
-add_subdirectory(3rdparty)
-
 file(GLOB_RECURSE INCS LIST_DIRECTORIES false include/*.*)
-
 file(GLOB_RECURSE SRCS LIST_DIRECTORIES false src/*.*)
-
 
 add_executable(${PRJ_NAME} ${INCS} ${SRCS})
 
-add_dependencies(${PRJ_NAME} raylib)
+# ==== 新增：環境判斷與 external 路徑設定 ====
+if(WIN32)
+  # Windows 採用的預編譯包路徑 (請確保你已經把原本的資料夾移到 external 內)
+  set(RAYLIB_INC_DIR external/raylib-5.0_win64_msvc16/include)
+  set(RAYLIB_LIB_DIR external/raylib-5.0_win64_msvc16/lib)
+elseif(UNIX)
+  # Linux 採用的預編譯包路徑 (⚠️ 請替換成你實際解壓縮出來的資料夾名稱)
+  set(RAYLIB_INC_DIR external/raylib-5.5_linux_amd64/include)
+  set(RAYLIB_LIB_DIR external/raylib-5.5_linux_amd64/lib)
+endif()
 
+# 告訴編譯器去哪裡找 raylib.h
 target_include_directories(${PROJECT_NAME}
 PRIVATE
   include
-  3rdparty/raylib-5.0_win64_msvc16/include
+  ${RAYLIB_INC_DIR}
 )
 
-
-target_link_libraries(${PRJ_NAME}
+# 告訴編譯器去哪裡找 libraylib.a 
+target_link_directories(${PROJECT_NAME}
 PRIVATE
-  raylib
+  ${RAYLIB_LIB_DIR}
 )
+
+# 連結函式庫
+if(WIN32)
+  target_link_libraries(${PRJ_NAME} PRIVATE raylib)
+elseif(UNIX)
+  # Linux 必須額外手動連結系統圖形與數學庫
+  target_link_libraries(${PRJ_NAME} PRIVATE raylib m pthread dl rt X11)
+endif()
+# =========================================
 
 if(WIN32)
-
 set_target_properties(${PROJECT_NAME} 
 PROPERTIES
   VS_DEBUGGER_WORKING_DIRECTORY ${_ROOT}/${_PUBLISH}/${PROJECT_NAME}
 )
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-	COMMENT "copy ${PROJECT_NAME} libraries files..."
-	
-	
-	COMMAND ${CMAKE_COMMAND} -E make_directory  ${_PUBLISH}/${PROJECT_NAME}
-	
-	
-	
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:raylib> ${_PUBLISH}/${PROJECT_NAME}
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${_PUBLISH}/${PROJECT_NAME}
-	
-	COMMAND ${CMAKE_COMMAND} -E make_directory  ${_PUBLISH}/${PROJECT_NAME}/images
-	COMMAND ${CMAKE_COMMAND} -E copy_directory assets/images ${_PUBLISH}/${PROJECT_NAME}/images
-	
-	
-	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  COMMENT "copy ${PROJECT_NAME} libraries files..."
+  
+  COMMAND ${CMAKE_COMMAND} -E make_directory  ${_PUBLISH}/${PROJECT_NAME}
+  
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:raylib> ${_PUBLISH}/${PROJECT_NAME}
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${_PUBLISH}/${PROJECT_NAME}
+  
+  COMMAND ${CMAKE_COMMAND} -E make_directory  ${_PUBLISH}/${PROJECT_NAME}/images
+  COMMAND ${CMAKE_COMMAND} -E copy_directory assets/images ${_PUBLISH}/${PROJECT_NAME}/images
+  
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 )
 endif()
