@@ -1,12 +1,11 @@
 #pragma once
 #include "IMoveStrategy.hpp"
 
-namespace chess::piece::strategy {
+namespace chess::model::piece::strategy {
 
 	class RookMove : public IMoveStrategy {
 	private:
-		RookMove() {}
-		~RookMove() = default;
+		RookMove() = default;
 
 	public:
 		static const RookMove& instance() {
@@ -16,74 +15,32 @@ namespace chess::piece::strategy {
 		RookMove(const RookMove&) = delete;
 		RookMove& operator=(const RookMove&) = delete;
 
-		bool isValidMove(Vector2, Vector2, Board &b) const override {
-			vector<vector<char>> board = Board.board_state;
-			if(from.x == des.x || from.y == des.y)
-			{
-				//left
-				if(des.x - from.x < 0)
-				{   
-					tempR = from;
-					while(tempR.x != des.x)
-					{
-						if(board[int(tempR.y)][int(--tempR.x)] != '0')
-							if((bool(islower(board[int(des.y)][int(des.x)])) != bool(Board.turn)) && tempR.x == des.x && tempR.y == des.y)
-								return true;
-							else
-								return false;
-					} 
-					return true;
-				}
+		bool isValidMove(const Loc2<int>& from, const Loc2<int>& dest, const Board& b) const override {
+			int deltaX = dest.x - from.x;
+			int deltaY = dest.y - from.y;
 
-				// right
-				if(des.x - from.x > 0)
-				{   
-					tempR = from;
-					while(tempR.x != des.x)
-					{
-						if(board[int(tempR.y)][int(++tempR.x)] != '0')
-							if((bool(islower(board[int(des.y)][int(des.x)])) != bool(Board.turn)) && tempR.x == des.x && tempR.y == des.y)
-								return true;
-							else
-								return false;
-
-					}
-					return true;
-				}
-
-				//up
-				if(des.y - from.y < 0)
-				{   
-					tempR = from;
-					while(tempR.y != des.y)
-					{
-						if(board[int(--tempR.y)][int(tempR.x)] != '0')
-							if((bool(islower(board[int(des.y)][int(des.x)])) != bool(Board.turn)) && tempR.x == des.x && tempR.y == des.y)
-								return true;
-							else
-								return false;
-					}
-					return true;
-				}
-
-				//down
-				if(des.y - from.y > 0)
-				{   
-					tempR = from;
-					while(tempR.y != des.y)
-					{
-						if(board[int(++tempR.y)][int(tempR.x)] != '0')
-							if((bool(islower(board[int(des.y)][int(des.x)])) != bool(Board.turn)) && tempR.x == des.x && tempR.y == des.y)
-								return true;
-							else
-								return false;
-					}
-					return true;
-				}
-			}
-			else
+			// Must move along a rank or file
+			if ((deltaX != 0 && deltaY != 0) || (deltaX == 0 && deltaY == 0))
 				return false;
-			return false;
+
+			int stepX = (deltaX > 0) ? 1 : (deltaX < 0) ? -1 : 0;
+			int stepY = (deltaY > 0) ? 1 : (deltaY < 0) ? -1 : 0;
+
+			// Check path for obstacles
+			int x = from.x + stepX;
+			int y = from.y + stepY;
+			while (x != dest.x || y != dest.y) {
+				if (b.boardState[y][x] != nullptr)
+					return false;
+				x += stepX;
+				y += stepY;
+			}
+
+			// Destination must be empty or occupied by opponent
+			auto& target = b.boardState[dest.y][dest.x];
+			if (target == nullptr)
+				return true;
+			return target->team != b.turn;
 		}
 	};
 }

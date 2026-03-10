@@ -1,37 +1,49 @@
 #pragma once
 #include "gamemode/IGamemode.hpp"
 #include "chess/view/Theme.hpp"
+#include "chess/model/board/Board.hpp"
 
 namespace chess::controller {
-	using namespace utils;
-	using namespace view;
+	using namespace chess::utils;
+	using namespace chess::model;
+	using namespace chess::view;
 
-	using Chess = ChessController;
 	class ChessController {
 	private:
 		UPtr<gamemode::IGamemode> _mode;
 		Theme& _theme;
+		board::Board _board;
 
 	public:
 		ChessController(
 			UPtr<gamemode::IGamemode> mode,
 			Theme& theme
-		) : _mode(std::move(mode)), _theme(theme) {}
+		) : _mode(std::move(mode)), _theme(theme),
+		    _board(_mode->getCellCount(), _mode->getCellSize(), theme) {}
 
-		const Size2 requiredWindowSize() {
-			auto cellCount = _mode->getCellCount();
-			auto cellSize = _mode->getCellSize();
-			return {cellCount.x * cellSize.x, cellCount.y * cellSize.y};
+		Size2 requiredWindowSize() const {
+			return {_board.cellCount.x * _board.cellSize.x,
+			        _board.cellCount.y * _board.cellSize.y};
 		}
 
-		const String title() {
-			return _mode->getTitle();
+		const char* title() const {
+			return _mode->getTitle().c_str();
 		}
 
 		void init() {
-			_mode->init();
+			_mode->init(_board);
 		}
 
+		void update() {
+			_mode->update(_board);
+		}
 
+		void draw() {
+			ClearBackground(_theme.getLightColor());
+			_board.draw();
+			_mode->drawPieces(_board);
+		}
 	};
+
+	using Chess = ChessController;
 }

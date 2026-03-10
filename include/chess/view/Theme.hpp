@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Palette.hpp";
+#include "Palette.hpp"
 
 namespace chess::view {
 	

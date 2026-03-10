@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 
-namespace chess::enums {
+namespace chess::model::enums {
 	
-	enum Team {
-		WHITE, BLACK
+	enum class Team {
+		White, Black
 	};
 }

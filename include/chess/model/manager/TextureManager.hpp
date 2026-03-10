@@ -2,49 +2,38 @@
 #include <unordered_map>
 #include <string>
 #include "raylib.h"
-
 #include "chess/utils/Unit.hpp"
-#include "../enums/PieceType.hpp"
-#include "../enums/Team.hpp"
+#include "chess/model/enums/Team.hpp"
 
-namespace chess::manager {
-	using namespace chess::enums;
+namespace chess::view { class Theme; }
+namespace chess::model::piece { class PieceType; }
+
+namespace chess::model::manager {
+	using namespace chess::utils;
+	using namespace chess::model::enums;
 
 	class TextureManager {
 	private:
-		TextureManager() {}
-		~TextureManager() = default;
+		TextureManager() = default;
+		~TextureManager() {
+			for (auto& [key, tex] : _cache)
+				UnloadTexture(tex);
+		}
 
-		HashMap<String, Texture2D> _textureCache;
-		
+		HashMap<String, Texture2D> _cache;
+
 	public:
 		static TextureManager& instance() {
-			static TextureManager instance;
-			return instance;
+			static TextureManager inst;
+			return inst;
 		}
-		TextureManager(const TextureManager& other) = delete;
-		TextureManager& operator=(const TextureManager& other) = delete;
+		TextureManager(const TextureManager&) = delete;
+		TextureManager& operator=(const TextureManager&) = delete;
 
-		const Texture2D& getTexture(const PieceType& type, Team team) {
-            auto key = std::make_pair(&type, color);
-
-            // 2. 檢查是否已經在快取中
-            auto it = _textureCache.find(type);
-            if (it != _textureCache.end()) {
-                return it->second; // 命中快取，直接回傳
-            }
-
-            // 3. 快取未命中，執行延遲載入
-            // 根據類型與顏色生成檔案路徑，例如 "assets/W_K.png"
-            std::string path = generatePath(type, color);
-            
-            // 假設 LoadTexture 是你底層繪圖庫的函式
-            _textureCache[key] = LoadTexture(path.c_str());
-
-            return _textureCache[key];
-        }
-
-		
-
+		const Texture2D& getTexture(
+			const chess::view::Theme& theme,
+			const piece::PieceType& type,
+			Team team
+		);
 	};
 }

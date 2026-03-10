@@ -1,13 +1,11 @@
 #pragma once
 #include "IMoveStrategy.hpp"
 
-namespace chess::piece::strategy {
-	using namespace board;
+namespace chess::model::piece::strategy {
 
 	class KingMove : public IMoveStrategy {
 	private:
-		KingMove() {}
-		~KingMove() = default;
+		KingMove() = default;
 
 	public:
 		static const KingMove& instance() {
@@ -17,17 +15,19 @@ namespace chess::piece::strategy {
 		KingMove(const KingMove&) = delete;
 		KingMove& operator=(const KingMove&) = delete;
 
-		bool isValidMove(const Loc<int>& from, const Loc<int>& dest, Board &b) const override {
-			std::vector<std::vector<char>> board = b.board_state;
+		bool isValidMove(const Loc2<int>& from, const Loc2<int>& dest, const Board& b) const override {
+			int deltaX = abs(dest.x - from.x);
+			int deltaY = abs(dest.y - from.y);
 
-			bool check1 = (abs(dest.x - from.x) == 1 && abs(dest.y - from.y) == 1);
-			bool check2 = (abs(dest.x - from.x) == 1 && dest.y == from.y);
-			bool check3 = (abs(dest.y - from.y) == 1 && dest.x == from.x);
-			bool check4 = (bool(islower(board[int(dest.y)][int(dest.x)])) != bool(b.turn));
-			bool check5 = (board[int(dest.y)][int(dest.x)] == '0');
+			// King moves at most 1 step in any direction
+			if (deltaX > 1 || deltaY > 1 || (deltaX == 0 && deltaY == 0))
+				return false;
 
-			if((check1 || check2 || check3) && (check4 || check5)) return true;
-			else return false;
+			// Destination must be empty or occupied by opponent
+			auto& target = b.boardState[dest.y][dest.x];
+			if (target == nullptr)
+				return true;
+			return target->team != b.turn;
 		}
 	};
 }

@@ -1,41 +1,24 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include "raylib.h"
+#include "chess/utils/Unit.hpp"
+#include "chess/model/enums/Team.hpp"
 
-#include "type/PieceType.hpp"
+namespace chess::model::piece {
+    using namespace enums;
+    using namespace utils;
 
-namespace chess::piece {
-    using namespace type;
+    class PieceType; // forward declaration
 
     class Piece {
-    protected:
-        Texture2D texture;
-        Image image;
-        
-
-        PieceType _type;
-        Style _style;
-
     public:
-        Vector2 position;
-        bool grabbed = false; //Check if the piece is being grabbed right now
+        const PieceType& type;
+        Team team;
+        Loc2<int> position;
         bool captured = false;
-        int number; //Mark the number of this piece in the list
-    
-        //right down left up downright downleft upleft upright
-        std::vector<Vector2> dir = {{1,0},{0,1},{-1,0},{0,-1},{1,1},{-1,1},{-1,-1},{1,-1}};
 
-
-        //Initialize piece's position (in tiles)
-        IPiece(Vector2, int, char, int);
-        ~IPiece() = default;
-
-        //Draw
-        void Draw();
-
-
+        Piece(const PieceType& t, Team tm, Loc2<int> pos)
+            : type(t), team(tm), position(pos) {}
+        ~Piece() = default;
     };
 }
 

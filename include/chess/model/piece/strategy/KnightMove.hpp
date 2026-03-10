@@ -1,12 +1,11 @@
 #pragma once
 #include "IMoveStrategy.hpp"
 
-namespace chess::piece::strategy {
+namespace chess::model::piece::strategy {
 
 	class KnightMove : public IMoveStrategy {
 	private:
-		KnightMove() {}
-		~KnightMove() = default;
+		KnightMove() = default;
 
 	public:
 		static const KnightMove& instance() {
@@ -16,18 +15,19 @@ namespace chess::piece::strategy {
 		KnightMove(const KnightMove&) = delete;
 		KnightMove& operator=(const KnightMove&) = delete;
 
-		bool isValidMove(Vector2, Vector2, Board &b) const override {
-			vector<vector<char>> board = Board.board_state;
+		bool isValidMove(const Loc2<int>& from, const Loc2<int>& dest, const Board& b) const override {
+			int deltaX = abs(dest.x - from.x);
+			int deltaY = abs(dest.y - from.y);
 
-			if(((abs(des.x - from.x) == 2 && abs(des.y - from.y) == 1) || (abs(des.x - from.x) == 1 && abs(des.y - from.y) == 2))
-				&& ((bool(islower(board[int(des.y)][int(des.x)])) != bool(Board.turn)) || board[int(des.y)][int(des.x)] == '0'))
-			{
-				return true;
-			}   
-			else
+			// L-shape: 2+1 or 1+2
+			if (!((deltaX == 2 && deltaY == 1) || (deltaX == 1 && deltaY == 2)))
 				return false;
-			
 
+			// Destination must be empty or occupied by opponent
+			auto& target = b.boardState[dest.y][dest.x];
+			if (target == nullptr)
+				return true;
+			return target->team != b.turn;
 		}
 	};
 }

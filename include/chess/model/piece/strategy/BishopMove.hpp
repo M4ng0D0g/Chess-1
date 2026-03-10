@@ -1,12 +1,11 @@
 #pragma once
 #include "IMoveStrategy.hpp"
 
-namespace chess::piece::strategy {
+namespace chess::model::piece::strategy {
 
 	class BishopMove : public IMoveStrategy {
 	private:
-		BishopMove() {}
-		~BishopMove() = default;
+		BishopMove() = default;
 
 	public:
 		static const BishopMove& instance() {
@@ -16,77 +15,32 @@ namespace chess::piece::strategy {
 		BishopMove(const BishopMove&) = delete;
 		BishopMove& operator=(const BishopMove&) = delete;
 
-		bool isValidMove(const Loc<int>& from, const Loc<int>& dest, Board &b) const override {
-			vector<vector<char>> board = b.board_state;
-
+		bool isValidMove(const Loc2<int>& from, const Loc2<int>& dest, const Board& b) const override {
 			int deltaX = dest.x - from.x;
 			int deltaY = dest.y - from.y;
-			
-			bool check1 = (abs(deltaX) == abs(deltaY));
-			if(!check1) return false;
 
-			
+			// Bishop must move diagonally
+			if (abs(deltaX) != abs(deltaY) || deltaX == 0)
+				return false;
 
-			if(deltaX > 0 && deltaY < 0) {
-				//upright
+			int stepX = (deltaX > 0) ? 1 : -1;
+			int stepY = (deltaY > 0) ? 1 : -1;
+
+			// Check path for obstacles
+			int x = from.x + stepX;
+			int y = from.y + stepY;
+			while (x != dest.x || y != dest.y) {
+				if (b.boardState[y][x] != nullptr)
+					return false;
+				x += stepX;
+				y += stepY;
 			}
 
-			auto tempB = from;
-			while(tempB.x != dest.x) {
-				if(board[int(--tempB.y)][int(++tempB.x)] != '0')
-					if((bool(islower(board[int(dest.y)][int(dest.x)])) != bool(Board.turn)) && tempB.x == dest.x && tempB.y == dest.y)
-						return true;
-					else
-						return false;
-			}
-			return true;
-
-			//downright
-			if(deltaX > 0 && deltaY > 0)
-			{
-				tempB = from;
-				while(tempB.x != dest.x)
-				{
-					if(board[int(++tempB.y)][int(++tempB.x)] != '0')
-						if((bool(islower(board[int(dest.y)][int(dest.x)])) != bool(Board.turn)) && tempB.x == dest.x && tempB.y == dest.y)
-							return true;
-						else
-							return false;
-					
-						
-				}
+			// Destination must be empty or occupied by opponent
+			auto& target = b.boardState[dest.y][dest.x];
+			if (target == nullptr)
 				return true;
-			}
-
-			//downleft
-			if(deltaX < 0 && deltaY > 0)
-			{
-				tempB = from;
-				while(tempB.x != dest.x)
-				{
-					if(board[int(++tempB.y)][int(--tempB.x)] != '0')
-						if((bool(islower(board[int(dest.y)][int(dest.x)])) != bool(Board.turn)) && tempB.x == dest.x && tempB.y == dest.y)
-							return true;
-						else
-							return false;
-				}
-				return true;
-			}
-
-			//upleft
-			if(deltaX < 0 && deltaY < 0)
-			{
-				tempB = from;
-				while(tempB.x != dest.x)
-				{
-					if(board[int(--tempB.y)][int(--tempB.x)] != '0')
-						if((bool(islower(board[int(dest.y)][int(dest.x)])) != bool(Board.turn)) && tempB.x == dest.x && tempB.y == dest.y)
-							return true;
-						else
-							return false;
-				}
-				return true;
-			}
+			return target->team != b.turn;
 		}
 	};
 }
