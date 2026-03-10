@@ -15,10 +15,7 @@ namespace chess::model::manager {
 	class TextureManager {
 	private:
 		TextureManager() = default;
-		~TextureManager() {
-			for (auto& [key, tex] : _cache)
-				UnloadTexture(tex);
-		}
+		~TextureManager() = default;
 
 		HashMap<String, Texture2D> _cache;
 
@@ -35,5 +32,11 @@ namespace chess::model::manager {
 			const piece::PieceType& type,
 			Team team
 		);
+
+		void clearCache() {
+			for (auto& [key, tex] : _cache)
+				UnloadTexture(tex);
+			_cache.clear();
+		}
 	};
 }

@@ -63,9 +63,11 @@ if(CMAKE_CONFIGURATION_TYPES)
   endif()
 else()
   set(BUILD_CONFIG ${CMAKE_BUILD_TYPE})
+  if(NOT BUILD_CONFIG)
+    set(BUILD_CONFIG "Debug")
+  endif()
   set(TARGET_TRIPLE_CONFIG ${CMAKE_SYSTEM_NAME}-${PROJECT_ARCH}-${BUILD_CONFIG})
   add_definitions(-fpermissive)
-  # 修正：將整個字串包在引號內，解決警告
   add_compile_definitions("__stdcall=__attribute__((__cdecl__))")
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--unresolved-symbols=report-all")
 endif()
@@ -159,56 +161,63 @@ file(GLOB_RECURSE SRCS LIST_DIRECTORIES false src/*.*)
 
 add_executable(${PRJ_NAME} ${INCS} ${SRCS})
 
-# ==== 新增：環境判斷與 external 路徑設定 ====
+# ======================================================
+# ==== 新增：Raylib 外部庫與 Assets 路徑設定 ====
+# ======================================================
+
+# 1. 設定 Assets 目錄
+set(ASSETS_SRC_DIR ${CMAKE_SOURCE_DIR}/assets)
+# 將 Assets 複製到執行檔輸出的 bin 目錄下
+set(ASSETS_DEST_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets)
+
+# 2. 環境判斷與路徑設定
 if(WIN32)
-  # Windows 採用的預編譯包路徑 (請確保你已經把原本的資料夾移到 external 內)
-  set(RAYLIB_INC_DIR external/raylib-5.0_win64_msvc16/include)
-  set(RAYLIB_LIB_DIR external/raylib-5.0_win64_msvc16/lib)
+  set(RAYLIB_INC_DIR ${CMAKE_SOURCE_DIR}/external/raylib-5.0_win64_msvc16/include)
+  set(RAYLIB_LIB_DIR ${CMAKE_SOURCE_DIR}/external/raylib-5.0_win64_msvc16/lib)
 elseif(UNIX)
-  # Linux 採用的預編譯包路徑 (⚠️ 請替換成你實際解壓縮出來的資料夾名稱)
-  set(RAYLIB_INC_DIR external/raylib-5.5_linux_amd64/include)
-  set(RAYLIB_LIB_DIR external/raylib-5.5_linux_amd64/lib)
+  set(RAYLIB_INC_DIR ${CMAKE_SOURCE_DIR}/external/raylib-5.5_linux_amd64/include)
+  set(RAYLIB_LIB_DIR ${CMAKE_SOURCE_DIR}/external/raylib-5.5_linux_amd64/lib)
 endif()
 
-# 告訴編譯器去哪裡找 raylib.h
-target_include_directories(${PROJECT_NAME}
-PRIVATE
-  include
-  ${RAYLIB_INC_DIR}
-)
+# 3. 配置編譯與連結路徑
+target_include_directories(${PRJ_NAME} PRIVATE include ${RAYLIB_INC_DIR})
+target_link_directories(${PRJ_NAME} PRIVATE ${RAYLIB_LIB_DIR})
 
-# 告訴編譯器去哪裡找 libraylib.a 
-target_link_directories(${PROJECT_NAME}
-PRIVATE
-  ${RAYLIB_LIB_DIR}
-)
-
-# 連結函式庫
+# 4. 連結函式庫 (整合 Linux 系統依賴)
 if(WIN32)
   target_link_libraries(${PRJ_NAME} PRIVATE raylib)
 elseif(UNIX)
-  # Linux 必須額外手動連結系統圖形與數學庫
+  # 確保 X11 等庫被正確連結
   target_link_libraries(${PRJ_NAME} PRIVATE raylib m pthread dl rt X11)
 endif()
-# =========================================
 
+# 5. POST_BUILD: 自動同步 Assets 資源
+# 無論是 Windows 或 Linux，在編譯完成後都將根目錄的 assets 複製到 bin 目錄
+# 在原本的 POST_BUILD 區塊中加入這一行
+add_custom_command(TARGET ${PRJ_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${ASSETS_DEST_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${ASSETS_SRC_DIR} ${ASSETS_DEST_DIR}
+    
+    # === 新增這行：把 .so 檔也複製過去 ===
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${RAYLIB_LIB_DIR}/libraylib.so.550 ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    
+    COMMENT "--- 正在同步資源文件與動態庫 ---"
+)
+
+# 6. 保留原本 Windows 特有的發佈邏輯
 if(WIN32)
-set_target_properties(${PROJECT_NAME} 
-PROPERTIES
-  VS_DEBUGGER_WORKING_DIRECTORY ${_ROOT}/${_PUBLISH}/${PROJECT_NAME}
-)
+  set_target_properties(${PRJ_NAME} PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY ${_ROOT}/${_PUBLISH}/${PRJ_NAME}
+  )
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD 
-  COMMENT "copy ${PROJECT_NAME} libraries files..."
-  
-  COMMAND ${CMAKE_COMMAND} -E make_directory  ${_PUBLISH}/${PROJECT_NAME}
-  
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:raylib> ${_PUBLISH}/${PROJECT_NAME}
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${_PUBLISH}/${PROJECT_NAME}
-  
-  COMMAND ${CMAKE_COMMAND} -E make_directory  ${_PUBLISH}/${PROJECT_NAME}/images
-  COMMAND ${CMAKE_COMMAND} -E copy_directory assets/images ${_PUBLISH}/${PROJECT_NAME}/images
-  
-  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-)
+  add_custom_command(TARGET ${PRJ_NAME} POST_BUILD 
+    COMMENT "copy ${PRJ_NAME} libraries files..."
+    COMMAND ${CMAKE_COMMAND} -E make_directory  ${_ROOT}/${_PUBLISH}/${PRJ_NAME}
+    # 注意：這裡假設 raylib 是動態庫才需要 copy，如果是靜態庫 (.lib) 則不需要
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PRJ_NAME}> ${_ROOT}/${_PUBLISH}/${PRJ_NAME}
+    COMMAND ${CMAKE_COMMAND} -E make_directory  ${_ROOT}/${_PUBLISH}/${PRJ_NAME}/images
+    COMMAND ${CMAKE_COMMAND} -E copy_directory assets/images ${_ROOT}/${_PUBLISH}/${PRJ_NAME}/images
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  )
 endif()
+# ======================================================

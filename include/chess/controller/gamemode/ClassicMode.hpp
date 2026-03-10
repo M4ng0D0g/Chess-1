@@ -90,23 +90,29 @@ namespace chess::controller::gamemode {
 					const Texture2D& tex = texMgr.getTexture(
 						board.theme, piece->type, piece->team
 					);
-					DrawTexture(tex,
-						x * (int)board.cellSize.x,
-						y * (int)board.cellSize.y,
-						WHITE
-					);
+					// 將材質縮放至格子大小，並置中繪製
+					float scale = 0.75f;
+					float offset = (1.0f - scale) / 2.0f;
+					Rectangle source = {0, 0, (float)tex.width, (float)tex.height};
+					Rectangle dest = {
+						(float)(x * (int)(board.cellSize.x)) + offset * (int)(board.cellSize.x),
+						(float)(y * (int)(board.cellSize.y)) + offset * (int)(board.cellSize.y),
+						(float)board.cellSize.x * scale,
+						(float)board.cellSize.y * scale
+					};
+					DrawTexturePro(tex, source, dest, {0, 0}, 0.0f, WHITE);
 				}
 			}
 
 			// Highlight selected tile
 			if (_hasSelection) {
-				DrawRectangleLines(
-					_selected.x * (int)board.cellSize.x,
-					_selected.y * (int)board.cellSize.y,
-					(int)board.cellSize.x,
-					(int)board.cellSize.y,
-					YELLOW
-				);
+				Rectangle selRect = {
+					(float)(_selected.x * (int)board.cellSize.x),
+					(float)(_selected.y * (int)board.cellSize.y),
+					(float)board.cellSize.x,
+					(float)board.cellSize.y
+				};
+				DrawRectangleLinesEx(selRect, 3.0f, YELLOW);
 			}
 		}
 	};
